@@ -36,7 +36,7 @@
             margin-bottom: 40px;
         }
         .subtitle a {
-            color: #fff;
+            color: #ff0000;
             text-decoration: none;
         }
         .subtitle a:hover {
@@ -99,6 +99,7 @@
             }
             .content-wrapper {
                 flex-direction: column;
+                align-items: center;
             }
             .section-header {
                 font-size: 16px;
@@ -110,6 +111,9 @@
     </style>
 </head>
 <body>
+    <audio id="bgMusic" autoplay loop muted>
+        <source src="One More Time (Radio Edit).mp3" type="audio/mpeg">
+    </audio>
     <div class="container">
         <h1>YOU SURVIVED THE TRANSGEOPOCALYPSE</h1>
         <div class="subtitle">
@@ -131,5 +135,29 @@
             </div>
         </div>
     </div>
+    <script>
+        const audio = document.getElementById('bgMusic');
+
+        // Try to play unmuted immediately
+        audio.muted = false;
+        audio.play().then(() => {
+            console.log('Audio playing');
+        }).catch(e => {
+            console.log('Autoplay blocked, waiting for user interaction');
+            // If blocked, play on first interaction
+            const playAudio = () => {
+                audio.muted = false;
+                audio.play();
+                document.removeEventListener('click', playAudio);
+                document.removeEventListener('touchstart', playAudio);
+                document.removeEventListener('keydown', playAudio);
+                document.removeEventListener('scroll', playAudio);
+            };
+            document.addEventListener('click', playAudio);
+            document.addEventListener('touchstart', playAudio);
+            document.addEventListener('keydown', playAudio);
+            document.addEventListener('scroll', playAudio);
+        });
+    </script>
 </body>
 </html>
